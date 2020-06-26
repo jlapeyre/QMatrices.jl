@@ -13,8 +13,9 @@ Convert `A` to a `StaticArrays.SArray`.
 sarray(A) = SArray{Tuple{size(A)...}}(A)
 
 # Create static versions of heap-allocated objects
-for A in (:k0, :k1, :X, :Y, :Z, :Id2, :H,
-          :S, :T, :sqrt_NOT, :CX, :CCX, :CY, :CZ, :SWAP, :CSWAP)
+for A in (:k0, :k1, :Id2, :H, :CH, :CCH,
+          :X, :CX, :CCX, :Y, :CY, :CCY, :Z, :CZ, :CCZ,
+          :S, :T, :sqrt_NOT, :SWAP, :CSWAP)
     @eval const $A = sarray(Dynamic.$A)
     @eval @doc (@doc Dynamic.$A) $A
 end

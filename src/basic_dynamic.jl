@@ -3,7 +3,7 @@ module Dynamic
 using QMatrices: checksquare, control, flipbit
 
 export k0, k1, Id2, X, Y, Z, H, S, T,
-    CNOT, CCNOT, CY, CZ, SWAP,
+    CX, CY, CZ, SWAP,
     Rz, Rzpi
 
 # TODO: We should probably define these in a straightforward way, rather than preserve
@@ -21,6 +21,7 @@ const k0 = [1, 0]
 `k1` is `[0, 1]`.
 """
 const k1 = [0, 1]
+
 
 ####
 #### Single qubit gates
@@ -84,35 +85,24 @@ The square root of the `NOT` (or `X`) gate.
 """
 const sqrt_NOT = sqrt(complex(X))
 
-# TODO: work around the morality police. Make this more clear
-
+# FIXME: Highlighting of $cgate is broken
+# Controlled X, Y, Z with one and two control qubits
+for gate in (:X, :Y, :Z, :H)
+    for n in 1:2
+        cgate = Symbol(fill(:C, n)..., gate)
+        gatestr = string(gate)
+        cgatestr = string(cgate)
+        expl = n == 2 ? "gate with two control qubits." : "gate."
+        @eval begin
 """
-    CX
+   $($cgatestr)
 
-The controlled-`NOT`, or controlled-`X`, gate.
+The controlled-`$($gatestr)` $($expl)
 """
-const CX = control(X)
-
-"""
-    CCX
-
-The controlled `X` (`CNOT`) gate with two control qubits.
-"""
-const CCX = control(X, 2)
-
-"""
-    CY
-
-The controlled-`Y` gate.
-"""
-const CY = control(Y)
-
-"""
-    CZ
-
-The controlled-`Z` gate.
-"""
-const CZ = control(Z)
+        const $cgate = control($gate, $n)
+        end
+    end
+end
 
 """
     SWAP

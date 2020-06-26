@@ -19,3 +19,8 @@ end
 
     @test control(X, 2) == toffoli
 end
+
+@testset "Bell state" begin
+    k = zeroket(2)
+    @test CX * (H ⊗ Id2) * k == [0.7071067811865475, 0.0, 0.0, 0.7071067811865475]
+end

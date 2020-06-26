@@ -6,15 +6,14 @@ Plain-data matrices and vectors for quantum information.
 """
 module QMatrices
 
-export k0, k1, Id2, X, Y, Z, H, S, T,
+export k0, k1, Id2, H, CH, CCH, S, T,
     sqrt_NOT,
-    CX, CCX, CY, CZ, SWAP, CSWAP,
+    X, CX, CCX, Y, CY, CCY, Z, CZ, CCZ,
+    SWAP, CSWAP,
     Rphi, Rphipi,
     RX, RXpi,
     RY, RYpi,
     RZ, RZpi
-
-export swap, proj
 
 include("linalg.jl")
 include("construction.jl")
