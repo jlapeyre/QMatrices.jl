@@ -25,14 +25,16 @@ swap(G) = SWAP * G * SWAP
 """
     ket(b::Integer)
     ket(bs::Integer...)
+    ket(s::AbstractString)
 
 Return a vector representation the single-qubit computational basis state indexed by `b`, either `0` or `1`.
 This returns either `z0` or `z1`.
 
 Return the `length(bs)`-qubit computational basis state as a one-hot vector. Each argument must be either `0` or `1`.
+
+Construct a computational-basis ket from bitstring `s`.
 """
 ket(b::Integer) = b == 0 ? z0 : b == 1 ? z1 : throw(DomainError(b))
-
 
 function _ket(position::Integer, n_qubits::Integer)
     v = zeros(Int, 2^n_qubits)
@@ -110,36 +112,6 @@ projector(ket::AbstractVector) = ketbra(ket, ket)
 Return `projector(ket(b))`.
 """
 projector(b::Integer) = projector(ket(b))
-
-
-# """
-#     proj(v::AbstractVector)
-
-# Return the projector onto `v`. That is `v * v'`.
-# """
-# proj(v::AbstractVector) = v * v'
-
-# """
-#     zeroket(n::Integer)
-
-# An `n`-qubit register with all qubits in the zero state in the computational basis
-# """
-# function zeroket(n::Integer)
-#     ket = zeros(Int, 2^n)
-#     ket[1] = 1
-#     return ket
-# end
-
-# """
-#     oneket(n::Integer)
-
-# An `n`-qubit register with all qubits in the one state in the computational basis
-# """
-# function oneket(n::Integer)
-#     ket = zeros(Int, 2^n)
-#     ket[end] = 1
-#     return ket
-# end
 
 """
     control(A::AbstractMatrix, n_control_bits=1)

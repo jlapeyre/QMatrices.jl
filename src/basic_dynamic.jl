@@ -1,27 +1,18 @@
-module Dynamic
-
-using QMatrices: checksquare, control, flipbit
-
-export k0, k1, Id2, X, Y, Z, H, S, T,
-    CX, CY, CZ, SWAP,
-    Rz, Rzpi
-
 # TODO: We should probably define these in a straightforward way, rather than preserve
 # generality in the definitions.
 """
-    k0
+    z0
 
-`k0` is `[1, 0]`.
+`z0` is `[1, 0]`.
 """
-const k0 = [1, 0]
+const z0 = [1, 0]
 
 """
-    k1
+    z1
 
-`k1` is `[0, 1]`.
+`z1` is `[0, 1]`.
 """
-const k1 = [0, 1]
-
+const z1 = [0, 1]
 
 ####
 #### Single qubit gates
@@ -121,5 +112,3 @@ const SWAP = [1 0 0 0
 The controlled `SWAP` gate.
 """
 const CSWAP = control(SWAP)
-
-end # module Dynamic
