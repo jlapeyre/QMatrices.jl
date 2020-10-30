@@ -59,3 +59,46 @@ end
 function RZpi(z)
     return [_exp_ipi(-z/2) 0; 0 _exp_ipi(z/2)]
 end
+
+"""
+    U(θ, ϕ, λ)
+
+Matrix from SU(2).
+"""
+function U(θ, ϕ, λ)
+    c = cos(θ/2)
+    s = sin(θ/2)
+    fpl =  (ϕ + λ) / 2
+    fml =  (ϕ - λ) / 2
+    cfpl = cos(fpl)
+    sfpl = sin(fpl)
+    cfml = cos(fml)
+    sfml = sin(fml)
+    f00 = complex(cfpl, -sfpl) * c
+    f01 = complex(-cfml, sfml) * s
+    f10 = complex(cfml, sfml) * s
+    f11 = complex(cfpl, sfpl) * c
+    return [f00 f01; f10 f11]
+end
+
+"""
+    Upi(θ, ϕ, λ)
+
+Matrix from SU(2), with `θ`, `ϕ`, and `λ` given as multiples of `π`.
+This is more accurate than `U`.
+"""
+function Upi(θ, ϕ, λ)
+    c = cospi(θ/2)
+    s = sinpi(θ/2)
+    fpl =  (ϕ + λ) / 2
+    fml =  (ϕ - λ) / 2
+    cfpl = cospi(fpl)
+    sfpl = sinpi(fpl)
+    cfml = cospi(fml)
+    sfml = sinpi(fml)
+    f00 = complex(cfpl, -sfpl) * c
+    f01 = complex(-cfml, sfml) * s
+    f10 = complex(cfml, sfml) * s
+    f11 = complex(cfpl, sfpl) * c
+    return [f00 f01; f10 f11]
+end

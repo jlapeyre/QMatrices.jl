@@ -14,6 +14,7 @@ const z0 = [1, 0]
 """
 const z1 = [0, 1]
 
+
 ####
 #### Single qubit gates
 ####
@@ -77,7 +78,7 @@ The square root of the `NOT` (or `X`) gate.
 const sqrt_NOT = sqrt(complex(X))
 
 # FIXME: Highlighting of $cgate is broken
-# Controlled X, Y, Z with one and two control qubits
+# Controlled X, Y, Z, H with one and two control qubits
 for gate in (:X, :Y, :Z, :H)
     for n in 1:2
         cgate = Symbol(fill(:C, n)..., gate)

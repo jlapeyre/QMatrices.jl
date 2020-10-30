@@ -130,3 +130,26 @@ function control(A::AbstractMatrix, n_control_bits=1)
     @inbounds controlled_A[d-dA+1:d, d-dA+1:d] .= A
     return controlled_A
 end
+
+"""
+    E(n::Integer, m::Integer=n, a::Integer, b::Integer)
+
+Computational-basis vectors of `n`x`m` matrices.
+"""
+function E(n::Integer, m::Integer, a::Integer, b::Integer)
+    (1 <= a <= n && 1 <= b <= m) || error("E: Invalid indices, violate 1 <= $a <= $n && 1 <= $b <= $m")
+    Em = zeros(Int8,  m, m)
+    Em[a, b] = 1
+    return Em
+end
+E(n::Integer, a::Integer, b::Integer) = E(n, n, a, b)
+
+
+####
+#### Bell States
+####
+
+const b00 = (ket(0, 0) + ket(1, 1)) / sqrt(2)
+const b10 = (ket(0, 0) - ket(1, 1)) / sqrt(2)
+const b01 = (ket(0, 1) + ket(1, 0)) / sqrt(2)
+const b11 = (ket(0, 1) - ket(1, 0)) / sqrt(2)

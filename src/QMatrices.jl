@@ -13,7 +13,10 @@ export z0, z1, Id2, H, CH, CCH, S, T,
     Rphi, Rphipi,
     RX, RXpi,
     RY, RYpi,
-    RZ, RZpi
+    RZ, RZpi,
+    U, Upi,
+    E,
+    b00, b01, b10, b11
 
 include("linalg.jl")
 include("construction.jl")
