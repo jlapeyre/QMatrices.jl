@@ -88,7 +88,8 @@ Return `ket1 * ket2'`
 """
 ketbra(ket1::AbstractVector, ket2::AbstractVector) = ketbra(ket1, ket2')
 
-# TODO: This could be hardcoded rather than calculated
+ketbra(ket1::Tuple, ket2::Tuple) = ketbra(ket(ket1...), ket(ket2...))
+
 """
     ketbra(b0::Integer, b1::Integer)
 
