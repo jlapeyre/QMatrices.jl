@@ -66,7 +66,7 @@ const S = [1 0; 0 im]
 
 The π/8 gate.
 """
-const T = [1 0; 0 exp(im * pi / 4)]
+const T = [1 0; 0 (cospi(1/4) + im * sinpi(1/4))]
 
 # FIXME: These are easy to construct. Maybe we do not need
 # to provide them. Decide.
