@@ -20,11 +20,11 @@ const z1 = [0, 1]
 ####
 
 """
-    Id2
+    I2
 
 The single-qubit identity operator.
 """
-const Id2 = [1 0; 0 1]
+const I2 = [1 0; 0 1]
 
 """
     X

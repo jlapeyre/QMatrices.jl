@@ -2,7 +2,7 @@ import LinearAlgebra
 import ILog2
 
 export flipbit, control
-export swap, projector, ket, ketbra, zeroket, oneket
+export swap, proj, ket, ketbra, zeroket, oneket
 export ⊗
 
 const ⊗ = kron
@@ -30,7 +30,8 @@ swap(G) = SWAP * G * SWAP
 Return a vector representation the single-qubit computational basis state indexed by `b`, either `0` or `1`.
 This returns either `z0` or `z1`.
 
-Return the `length(bs)`-qubit computational basis state as a one-hot vector. Each argument must be either `0` or `1`.
+Return the `length(bs)`-qubit computational basis state corresponding to bits `bs`.
+Each argument must be either `0` or `1`.
 
 Construct a computational-basis ket from bitstring `s`.
 """
@@ -101,18 +102,18 @@ ketbra(b0::Integer, b1::Integer) = ketbra(ket(b0), ket(b1))
 ketbra(ket1::AbstractVector, ket2::AbstractMatrix) = ket1 * ket2 # Assume dimensions are correct. i.e. ket2 is an adjoint
 
 """
-    projector(ket::AbstractVector)
+    proj(ket::AbstractVector)
 
 Return `ketbra(ket, ket)`.
 """
-projector(ket::AbstractVector) = ketbra(ket, ket)
+proj(ket::AbstractVector) = ketbra(ket, ket)
 
 """
-    projector(ket::Integer)
+    proj(ket::Integer)
 
-Return `projector(ket(b))`.
+Return `proj(ket(b))`.
 """
-projector(b::Integer) = projector(ket(b))
+proj(b::Integer) = proj(ket(b))
 
 """
     control(A::AbstractMatrix, n_control_bits=1)
@@ -131,26 +132,3 @@ function control(A::AbstractMatrix, n_control_bits=1)
     @inbounds controlled_A[d-dA+1:d, d-dA+1:d] .= A
     return controlled_A
 end
-
-"""
-    E(n::Integer, m::Integer=n, a::Integer, b::Integer)
-
-Computational-basis vectors of `n`x`m` matrices.
-"""
-function E(n::Integer, m::Integer, a::Integer, b::Integer)
-    (1 <= a <= n && 1 <= b <= m) || error("E: Invalid indices, violate 1 <= $a <= $n && 1 <= $b <= $m")
-    Em = zeros(Int8,  m, m)
-    Em[a, b] = 1
-    return Em
-end
-E(n::Integer, a::Integer, b::Integer) = E(n, n, a, b)
-
-
-####
-#### Bell States
-####
-
-const b00 = (ket(0, 0) + ket(1, 1)) / sqrt(2)
-const b10 = (ket(0, 0) - ket(1, 1)) / sqrt(2)
-const b01 = (ket(0, 1) + ket(1, 0)) / sqrt(2)
-const b11 = (ket(0, 1) - ket(1, 0)) / sqrt(2)
