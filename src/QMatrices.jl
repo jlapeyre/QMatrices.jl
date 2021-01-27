@@ -14,7 +14,7 @@ export z0, z1, I2, H, CH, CCH, S, T,
     RX, RXpi,
     RY, RYpi,
     RZ, RZpi,
-    U, Upi, Ualt
+    U, Upi, Ualt, U2
 
 include("linalg.jl")
 include("construction.jl")

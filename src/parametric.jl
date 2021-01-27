@@ -6,9 +6,10 @@
     Rphi(ϕ)
 
 The phase shift gate ``R_ϕ``.
+This is equivalent to qiskit's `u1` gate.
 """
 function Rphi(ϕ)
-    return [1 0; 0 exp(im * ϕ)]
+    return [1 0; 0 cis(ϕ)]
 end
 
 # Could use complex(reverse(sincospi(z))...)
@@ -17,7 +18,7 @@ end
 
 Return `exp(im * pi * z)`. This uses the accurate `cospi` and `sinpi` functions.
 """
-_exp_ipi(z) = complex(cospi(z), sinpi(z))
+_exp_ipi(z) = cispi(z)
 
 """
     Rphipi(z)
@@ -27,6 +28,15 @@ than `Rphi(pi * z)`.
 """
 function Rphipi(z)
     return [1 0; 0 _exp_ipi(z)]
+end
+
+"""
+    U2(ϕ, λ)
+
+u2 gate. Need to put math definitions in here.
+"""
+function U2(ϕ, λ)
+    return [1 -cis(λ); cis(ϕ) cis(ϕ + λ)] / sqrt(2)
 end
 
 # This does not appar any faster than computing each separately
@@ -61,7 +71,7 @@ function RYpi(z)
 end
 
 function RZ(θ)
-    return [exp(-im*θ/2) 0; 0 exp(im*θ/2)]
+    return [cis(-θ/2) 0; 0 cis(θ/2)]
 end
 
 function RZpi(z)
@@ -69,11 +79,12 @@ function RZpi(z)
 end
 
 """
-    U(θ, ϕ, λ)
+    Ualt(θ, ϕ, λ)
 
 Matrix from SU(2).
+Alternative parameterization.
 """
-function U(θ, ϕ, λ)
+function Ualt(θ, ϕ, λ)
     c = cos(θ/2)
     s = sin(θ/2)
     fpl =  (ϕ + λ) / 2
@@ -90,12 +101,12 @@ function U(θ, ϕ, λ)
 end
 
 """
-    Ualt(θ, ϕ, λ)
+    U(θ, ϕ, λ)
 
-Matrix from SU(2). Alternative parameterization. This is
+Matrix from SU(2). This is
 the same as qiskit's U or U3.
 """
-function Ualt(θ, ϕ, λ)
+function U(θ, ϕ, λ)
     c = cos(θ/2)
     s = sin(θ/2)
     fpl =  (ϕ + λ)
@@ -109,12 +120,12 @@ function Ualt(θ, ϕ, λ)
 end
 
 """
-    Upi(θ, ϕ, λ)
+    Ualtpi(θ, ϕ, λ)
 
 Matrix from SU(2), with `θ`, `ϕ`, and `λ` given as multiples of `π`.
-This is more accurate than `U`.
+This is more accurate than `Ualt`.
 """
-function Upi(θ, ϕ, λ)
+function Ualtpi(θ, ϕ, λ)
     c = cospi(θ/2)
     s = sinpi(θ/2)
     fpl =  (ϕ + λ) / 2
