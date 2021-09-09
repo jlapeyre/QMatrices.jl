@@ -140,3 +140,34 @@ function Ualtpi(θ, ϕ, λ)
     f11 = complex(cfpl, sfpl) * c
     return [f00 f01; f10 f11]
 end
+
+@doc raw"""
+    R(θ, ϕ)
+
+The R gate.
+```math
+R(\theta, \phi) = e^{-i \frac{\theta}{2} (\cos{\phi} x + \sin{\phi} y)}
+```
+"""
+function R(θ, ϕ)
+    c = cos(θ/2)
+    s = sin(θ/2)
+    return [c -im*exp(-im*ϕ)*s;
+            -im*exp(im*ϕ)*s c]
+end
+
+@doc raw"""
+    Rpi(θ, ϕ)
+
+The R gate with θ and ϕ reduced by π. This is may be more accurate,
+for example with integral and half-integral multiples of π.
+```math
+Rpi(\theta, \phi) = e^{-i \frac{\pi\theta}{2} (\cos{\pi\phi} x + \sin{\pi\phi} y)}
+```
+"""
+function Rpi(θ, ϕ)
+    c = cospi(θ/2)
+    s = sinpi(θ/2)
+    return [c -im*cispi(-ϕ)*s;
+            -im*cispi(ϕ)*s c]
+end

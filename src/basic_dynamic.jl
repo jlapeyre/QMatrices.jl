@@ -113,3 +113,15 @@ const SWAP = [1 0 0 0
 The controlled `SWAP` gate.
 """
 const CSWAP = control(SWAP)
+
+
+"""
+    iSWAP
+
+
+The 2-qubit `iSWAP` gate.
+"""
+const iSWAP = [1 0  0  0
+               0 0  im 0
+               0 im 0  0
+               0 0  0  1]
