@@ -125,3 +125,15 @@ const iSWAP = [1 0  0  0
                0 0  im 0
                0 im 0  0
                0 0  0  1]
+
+
+"""
+    Magic basis
+
+The matrix whose columns are the magic basis.
+"""
+const magic_basis = (1 / sqrt(2)) *
+    [1  0    0   im
+     0  im   1    0
+     0  im  -1    0
+     1  0    0  -im]

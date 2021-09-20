@@ -15,7 +15,8 @@ export z0, z1, I2, H, CH, CCH, S, T,
     RY, RYpi,
     RZ, RZpi,
     U, Upi, Ualt, U2,
-    R, Rpi
+    R, Rpi,
+    magic_basis
 
 include("linalg.jl")
 include("construction.jl")
