@@ -171,3 +171,30 @@ function Rpi(θ, ϕ)
     return [c -im*cispi(-ϕ)*s;
             -im*cispi(ϕ)*s c]
 end
+
+"""
+    RXXYY(θ)
+
+The R_XXYY gate, `exp(-im θ / 2 (X⊗X + Y⊗Y))`.
+"""
+function RXXYY(θ)
+    _RXXYY(θ, cos, sin)
+end
+
+"""
+    RXXYYpi(θ)
+
+The R_XXYY gate with `θ` scaled by `π`. `exp(-im * pi * θ / 2 * (X⊗X + Y⊗Y))`
+"""
+function RXXYYpi(θ)
+    _RXXYY(θ, cospi, sinpi)
+end
+
+
+function _RXXYY(θ, cfunc, sfunc)
+    II = I2 ⊗ I2 / 2
+    XX = X ⊗ X / 2
+    YY = Y ⊗ Y / 2
+    ZZ = Z ⊗ Z / 2
+    return II + ZZ + cfunc(θ) * (II - ZZ) -im * sfunc(θ) * (XX + YY)
+end
