@@ -58,7 +58,7 @@ end
 Return a Bell-diagonal state in the computational basis with
 the standard encoding.
 """
-bell_diag(c0, c1, c2, c3) = sum((c0, c1, c2, c3) .* _bell_proj)
+bell_diag(c0, c1, c2, c3) = sum((c0, c1, c2, c3) .* bell_proj)
 
 
 """
