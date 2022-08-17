@@ -1,5 +1,6 @@
 export E
 export b00, b01, b10, b11, plus, minus, iplus, iminus
+export bell_proj, bell, bell_diag, comp_to_bell, bell_to_comp
 
 """
     E(n::Integer, m::Integer=n, a::Integer, b::Integer)
@@ -30,6 +31,50 @@ const b11 = (ket(0, 1) - ket(1, 0)) / sqrt(2)
 @doc (@doc b00) b01
 @doc (@doc b00) b10
 @doc (@doc b00) b11
+
+# indexable Bell states
+const _bells = (b00, b01, b10, b11)
+
+"""
+    bell_proj
+
+Tuple of four projectors onto Bell states.
+"""
+const bell_proj = proj.(_bells)
+
+"""
+    bell(a, b)
+
+Return the Bell state ``b_{a,b}``. `a` and `b` take values `0` and `1`.
+"""
+function bell(a, b)
+    return _bells[2*a + b + 1]
+end
+
+
+"""
+    bell_diag(c0, c1, c2, c3)
+
+Return a Bell-diagonal state in the computational basis with
+the standard encoding.
+"""
+bell_diag(c0, c1, c2, c3) = sum((c0, c1, c2, c3) .* _bell_proj)
+
+
+"""
+    comp_to_bell
+
+Unitary transform from computational to Bell basis.
+"""
+const comp_to_bell = sum(bell(a,b) * ket(a,b)' for a in (0,1) for b in (0,1))
+
+"""
+    bell_to_comp
+
+Unitary transform from Bell to computational basis.
+"""
+const bell_to_comp = collect(comp_to_bell')
+
 
 ####
 #### Plus and minus states
