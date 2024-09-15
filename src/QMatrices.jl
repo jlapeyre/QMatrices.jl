@@ -6,6 +6,9 @@ Plain-data matrices and vectors for quantum information.
 """
 module QMatrices
 
+# For compiling workflows for statically-compiled-like latency
+using PrecompileTools: @setup_workload, @compile_workload
+
 export z0, z1, I2, H, CH, CCH, S, T,
     sqrt_NOT,
     X, CX, CCX, Y, CY, CCY, Z, CZ, CCZ,
@@ -18,10 +21,12 @@ export z0, z1, I2, H, CH, CCH, S, T,
     R, Rpi,
     magic_basis
 
+
 include("linalg.jl")
 include("construction.jl")
 include("parametric.jl")
 include("basic_dynamic.jl")
 include("constructed.jl")
+include("precompile.jl")
 
 end # module QMatrices
