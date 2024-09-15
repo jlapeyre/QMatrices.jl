@@ -9,5 +9,9 @@
         # These don't take very long to compile anyway.
         # Especially for larger values of N, the run time is much larger than compile time.
         RZpi(1)^2
+        random_unitary(2)
+        random_unitary(4)
+        random_special_unitary(4)
+        random_unitary_hermitian(4)
     end
 end

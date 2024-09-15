@@ -19,14 +19,18 @@ export z0, z1, I2, H, CH, CCH, S, T,
     RZ, RZpi,
     U, Upi, Ualt, U2,
     R, Rpi,
-    magic_basis
-
+    magic_basis,
+    random_unitary,
+    random_unitary!,
+    random_special_unitary,
+    random_unitary_hermitian
 
 include("linalg.jl")
 include("construction.jl")
 include("parametric.jl")
 include("basic_dynamic.jl")
 include("constructed.jl")
+include("random.jl")
 include("precompile.jl")
 
 end # module QMatrices
