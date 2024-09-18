@@ -99,7 +99,10 @@ If the trace is not constrained, then you are likely to get the identity operato
 though there is only one such operator and an infinite number of
 trace-zero matrices (for even `n`).
 """
-function random_unitary_hermitian(n::Integer; trace=nothing)
+function random_unitary_hermitian(n::Integer; trace::Union{Integer,Nothing}=nothing)
+    if n < 0
+        throw(DomainError(n, "n must be non-negative"))
+    end
     m = random_unitary(n)
     # Unitaries have eigvals with modulus 1. Hermitian means real eigvals.
     # So they must be all +-1
@@ -108,6 +111,9 @@ function random_unitary_hermitian(n::Integer; trace=nothing)
     else
         if ! iseven(trace + n)
             throw(ArgumentError("Requested trace must be of the same parity as matrix dimension n."))
+        end
+        if trace > n || trace < n
+            throw(ArgumentError("Trace must be less than or equal to n and greater than or equal to -n."))
         end
         num_plus_one = div(trace+n, 2)
         d = LinearAlgebra.diagm(Random.shuffle!([i<=num_plus_one ? 1 : -1 for i in 1:n]))
