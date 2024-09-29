@@ -173,6 +173,35 @@ function Rpi(θ, ϕ)
 end
 
 """
+    RXX(θ)
+
+The R_XX gate, `exp(-im θ / 2 X⊗X)`.
+"""
+function RXX(θ)
+    _RXX(θ, sincos)
+end
+
+"""
+    RXXpi(θ)
+
+The RXX gate scaled by π.
+`exp(-im θ /(2π) X⊗X)`.
+"""
+function RXXpi(θ)
+    _RXX(θ, sincospi)
+end
+
+function _RXX(θ, sincosf)
+    (s_a, c) = sincosf(θ / 2)
+    s = -im * s_a
+    z = zero(θ)
+    [c z z s
+     z c s z
+     z s c z
+     s z z c]
+end
+
+"""
     RXXYY(θ)
 
 The R_XXYY gate, `exp(-im θ / 2 (X⊗X + Y⊗Y))`.
@@ -189,7 +218,6 @@ The R_XXYY gate with `θ` scaled by `π`. `exp(-im * pi * θ / 2 * (X⊗X + Y⊗
 function RXXYYpi(θ)
     _RXXYY(θ, cospi, sinpi)
 end
-
 
 function _RXXYY(θ, cfunc, sfunc)
     II = I2 ⊗ I2 / 2
