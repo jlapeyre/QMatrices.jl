@@ -26,6 +26,8 @@ export z0, z1, I2, H, CH, CCH, S, T,
     random_special_unitary,
     random_unitary_hermitian
 
+export SX
+
 include("linalg.jl")
 include("construction.jl")
 include("parametric.jl")

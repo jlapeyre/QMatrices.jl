@@ -77,6 +77,9 @@ The square root of the `NOT` (or `X`) gate.
 """
 const sqrt_NOT = sqrt(complex(X))
 
+
+const SX = 1//2 * [1+im 1-im; 1-im 1+im]
+
 # FIXME: Highlighting of $cgate is broken
 # Controlled X, Y, Z, H with one and two control qubits
 for gate in (:X, :Y, :Z, :H)
