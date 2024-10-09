@@ -1,4 +1,5 @@
 import LinearAlgebra
+using LinearAlgebra: Diagonal
 import Random
 
 """
@@ -135,4 +136,10 @@ function random_special_unitary(n::Integer)
     (U, evals) = (eigs.vectors, eigs.values)
     scaled_evals = evals ./ prod(evals)^(1/n)
     U' * LinearAlgebra.diagm(scaled_evals) * U
+end
+
+function random_normal(n::Integer)
+    eigvals = randn(ComplexF64, n)
+    U = random_unitary(n)
+    U * Diagonal(eigvals) * U'
 end
