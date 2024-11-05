@@ -25,7 +25,7 @@ export z0, z1, I2, H, CH, CCH, S, T,
     random_unitary!,
     random_special_unitary,
     random_unitary_hermitian,
-    random_normal,
+    random_normal
 
 export SX
 
