@@ -131,6 +131,13 @@ const iSWAP = [1 0  0  0
 
 
 """
+    ECR
+
+Echoed cross-resonance gate.
+"""
+const ECR = (1/sqrt(2)) * (I2 ⊗ X - X ⊗ Y)
+
+"""
     Magic basis
 
 The matrix whose columns are the magic basis.

@@ -12,7 +12,7 @@ using PrecompileTools: @setup_workload, @compile_workload
 export z0, z1, I2, H, CH, CCH, S, T,
     sqrt_NOT,
     X, CX, CCX, Y, CY, CCY, Z, CZ, CCZ,
-    SWAP, CSWAP, iSWAP,
+    SWAP, CSWAP, iSWAP, ECR,
     Rphi, Rphipi,
     RX, RXpi,
     RY, RYpi,
