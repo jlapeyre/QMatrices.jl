@@ -226,3 +226,63 @@ function _RXXYY(θ, cfunc, sfunc)
     ZZ = Z ⊗ Z / 2
     return II + ZZ + cfunc(θ) * (II - ZZ) -im * sfunc(θ) * (XX + YY)
 end
+
+
+"""
+    RXZ(θ)
+
+`exp(-im * θ / 2 X ⊗ Z)`
+"""
+function RXZ(θ)
+    _RXZ(θ, cos, sin)
+end
+
+"""
+    RXZ(θ)
+
+`exp(-im * θ / (2 π) X ⊗ Z)`
+"""
+function RXZpi(θ)
+    _RXZ(θ, cospi, sinpi)
+end
+
+function _RXZ(θ, cosf, sinf)
+    t =  θ / 2
+    c = cosf(t)
+    s = im * sinf(t)
+    [c  0 -s  0
+     0  c  0  s
+    -s  0  c  0
+     0  s  0  c]
+end
+
+# In Qiskit, there is only RXZ, but they write
+# two versions with swapped qubits.
+# TODO: Make sure endianness story is straight here.
+"""
+    RZX(θ)
+
+`exp(-im * θ / 2 Z ⊗ X)`
+"""
+function RZX(θ)
+    _RZX(θ, cos, sin)
+end
+
+"""
+    RZX(θ)
+
+`exp(-im * θ / (2 π) X ⊗ Z)`
+"""
+function RZXpi(θ)
+    _RZX(θ, cospi, sinpi)
+end
+
+function _RZX(θ, cosf, sinf)
+    t =  θ / 2
+    c = cosf(t)
+    s = im * sinf(t)
+    [c -s  0  0
+    -s  c  0  0
+     0  0  c  s
+     0  0  s  c]
+end

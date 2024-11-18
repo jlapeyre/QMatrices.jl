@@ -138,6 +138,12 @@ function random_special_unitary(n::Integer)
     U' * LinearAlgebra.diagm(scaled_evals) * U
 end
 
+"""
+    random_normal(n::Integer)
+
+Return a random normal matrix. Eigenvalues have
+normally distributed real and imaginary components
+"""
 function random_normal(n::Integer)
     eigvals = randn(ComplexF64, n)
     U = random_unitary(n)
