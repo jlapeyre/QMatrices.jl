@@ -1,7 +1,7 @@
 name = "QMatrices"
 uuid = "e8637a5f-fa46-429a-85d3-62b6b7f83b1f"
 authors = ["John Lapeyre <jlapeyre@users.noreply.github.com>"]
-version = "0.3.0"
+version = "0.4.0"
 
 [deps]
 ILog2 = "2cd5bd5f-40a1-5050-9e10-fc8cdb6109f5"
