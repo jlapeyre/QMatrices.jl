@@ -9,7 +9,9 @@ module QMatrices
 # For compiling workflows for statically-compiled-like latency
 using PrecompileTools: @setup_workload, @compile_workload
 
-export z0, z1, I2, H, CH, CCH, S, T,
+export z0, z1, plus, minus, iplus, iminus
+
+export I2, H, CH, CCH, S, T,
     sqrt_NOT,
     X, CX, CCX, Y, CY, CCY, Z, CZ, CCZ,
     SWAP, CSWAP, iSWAP, ECR,
@@ -31,12 +33,13 @@ export z0, z1, I2, H, CH, CCH, S, T,
 
 export SX
 
+include("basic_dynamic.jl")
 include("linalg.jl")
 include("construction.jl")
 include("parametric.jl")
-include("basic_dynamic.jl")
 include("constructed.jl")
 include("random.jl")
-include("precompile.jl")
+
+# include("precompile.jl")
 
 end # module QMatrices

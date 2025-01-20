@@ -1,19 +1,30 @@
-# TODO: We should probably define these in a straightforward way, rather than preserve
-# generality in the definitions.
-"""
-    z0
-
-`z0` is `[1, 0]`.
-"""
 const z0 = [1, 0]
-
-"""
-    z1
-
-`z1` is `[0, 1]`.
-"""
 const z1 = [0, 1]
+const plus = (z0 + z1) / sqrt(2)
+const minus = (z0 - z1) / sqrt(2)
+const iplus = (z0 + im * z1) / sqrt(2)
+const iminus = (z0 - im * z1) / sqrt(2)
 
+"""
+    z0, z1, plus, minux, iplus, iminus
+
+The states |0>, |1>, |+⟩, |-⟩, |+i⟩, |-i⟩. These are eigenstates of the Pauli Z, X, and Y operators.
+
+# Extended help
+
+`z0` is the `+1` eigenvector, of the Pauli [`Z`](@ref) operator.
+
+`z1` is the `-1` eigenvector, of the Pauli [`Z`](@ref) operator.
+
+`minus` is the `-1` eigenvector, of the Pauli [`X`](@ref) operator.
+
+`plus` is the `+1` eigenvector, of the Pauli [`X`](@ref) operator.
+
+`iminus` is the `-1` eigenvector, of the Pauli [`Y`](@ref) operator.
+
+`iplus` is the `+1` eigenvector, of the Pauli [`Y`](@ref) operator.
+"""
+z0, z1, plus, minus, iplus, iminus
 
 ####
 #### Single qubit gates
@@ -68,36 +79,18 @@ The π/8 gate.
 """
 const T = [1 0; 0 (cospi(1/4) + im * sinpi(1/4))]
 
-# FIXME: These are easy to construct. Maybe we do not need
-# to provide them. Decide.
+# In recent versions of Julia, computing this at compile time takes several
+# seconds. So we insert the result.
 """
     sqrt_NOT
 
 The square root of the `NOT` (or `X`) gate.
 """
-const sqrt_NOT = sqrt(complex(X))
-
+const sqrt_NOT = ComplexF64[1.0 + 1.0im 1.0 - 1.0im; 1.0 - 1.0im 1.0 + 1.0im]
+# = sqrt(complex(X))
 
 const SX = 1//2 * [1+im 1-im; 1-im 1+im]
 
-# FIXME: Highlighting of $cgate is broken
-# Controlled X, Y, Z, H with one and two control qubits
-for gate in (:X, :Y, :Z, :H)
-    for n in 1:2
-        cgate = Symbol(fill(:C, n)..., gate)
-        gatestr = string(gate)
-        cgatestr = string(cgate)
-        expl = n == 2 ? "gate with two control qubits." : "gate."
-        @eval begin
-"""
-   $($cgatestr)
-
-The controlled-`$($gatestr)` $($expl)
-"""
-        const $cgate = control($gate, $n)
-        end
-    end
-end
 
 """
     SWAP
@@ -111,14 +104,6 @@ const SWAP = [1 0 0 0
               0 0 0 1]
 
 """
-    CSWAP
-
-The controlled `SWAP` gate.
-"""
-const CSWAP = control(SWAP)
-
-
-"""
     iSWAP
 
 
@@ -129,13 +114,12 @@ const iSWAP = [1 0  0  0
                0 im 0  0
                0 0  0  1]
 
-
 """
     ECR
 
 Echoed cross-resonance gate.
 """
-const ECR = (1/sqrt(2)) * (I2 ⊗ X - X ⊗ Y)
+const ECR = (1/sqrt(2)) * (kron(I2, X) - kron(X, Y))
 
 """
     Magic basis

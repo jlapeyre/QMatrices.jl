@@ -76,20 +76,34 @@ Unitary transform from Bell to computational basis.
 const bell_to_comp = collect(comp_to_bell')
 
 
+# FIXME: Highlighting of $cgate is broken
+# Controlled X, Y, Z, H with one and two control qubits
+for gate in (:X, :Y, :Z, :H)
+    for n in 1:2
+        cgate = Symbol(fill(:C, n)..., gate)
+        gatestr = string(gate)
+        cgatestr = string(cgate)
+        expl = n == 2 ? "gate with two control qubits." : "gate."
+        @eval begin
+"""
+   $($cgatestr)
+
+The controlled-`$($gatestr)` $($expl)
+"""
+        const $cgate = control($gate, $n)
+        end
+    end
+end
+
+
+"""
+    CSWAP
+
+The controlled `SWAP` gate.
+"""
+const CSWAP = control(SWAP)
+
 ####
 #### Plus and minus states
 ####
 
-"""
-    plus, minux, iplus, iminus
-
-The states |+⟩, |-⟩, |+i⟩, |-i⟩. These are eigenstates of
-the Pauli X and Y operators.
-"""
-const plus = (ket(0) + ket(1)) / sqrt(2)
-const minus = (ket(0) - ket(1)) / sqrt(2)
-const iplus = (ket(0) + im * ket(1)) / sqrt(2)
-const iminus = (ket(0) - im * ket(1)) / sqrt(2)
-@doc (@doc plus) minus
-@doc (@doc plus) iplus
-@doc (@doc plus) iminus
