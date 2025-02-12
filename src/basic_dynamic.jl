@@ -10,19 +10,25 @@ const iminus = (z0 - im * z1) / sqrt(2)
 
 The states |0>, |1>, |+⟩, |-⟩, |+i⟩, |-i⟩. These are eigenstates of the Pauli Z, X, and Y operators.
 
-# Extended help
+- `z0` is the `+1` eigenvector, of the Pauli [`Z`](@ref) operator.
+- `z1` is the `-1` eigenvector, of the Pauli [`Z`](@ref) operator.
+- `minus` is the `-1` eigenvector, of the Pauli [`X`](@ref) operator.
+- `plus` is the `+1` eigenvector, of the Pauli [`X`](@ref) operator.
+- `iminus` is the `-1` eigenvector, of the Pauli [`Y`](@ref) operator.
+- `iplus` is the `+1` eigenvector, of the Pauli [`Y`](@ref) operator.
 
-`z0` is the `+1` eigenvector, of the Pauli [`Z`](@ref) operator.
+# Examples
 
-`z1` is the `-1` eigenvector, of the Pauli [`Z`](@ref) operator.
+```jldoc-test
+julia> X * (0.1 * plus + 0.2 * minus) == (0.1 * plus - 0.2 * minus)
+true
 
-`minus` is the `-1` eigenvector, of the Pauli [`X`](@ref) operator.
+julia> Y * (0.1 * iplus + 0.2 * iminus) == (0.1 * iplus - 0.2 * iminus)
+true
 
-`plus` is the `+1` eigenvector, of the Pauli [`X`](@ref) operator.
-
-`iminus` is the `-1` eigenvector, of the Pauli [`Y`](@ref) operator.
-
-`iplus` is the `+1` eigenvector, of the Pauli [`Y`](@ref) operator.
+julia> Z * (0.1 * z0 + 0.2 * z1) == (0.1 * z0 - 0.2 * z1)
+true
+```
 """
 z0, z1, plus, minus, iplus, iminus
 
