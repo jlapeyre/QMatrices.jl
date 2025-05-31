@@ -149,3 +149,21 @@ function random_normal(n::Integer)
     U = random_unitary(n)
     U * Diagonal(eigvals) * U'
 end
+
+# Use a Caley Transform (see wikipedia)
+"""
+    random_orthogonal(n::Integer)
+
+Return a Haar-random `n x n` orthogonal matrix.
+"""
+function random_orthogonal(n::Integer)
+    Q, R = LinearAlgebra.qr(randn(n,n))
+    return Q * LinearAlgebra.Diagonal(sign.(LinearAlgebra.diag(R)))
+end
+
+# Probably not Haar random
+# function random_orthogonal(n::Integer)
+#     m = rand(Float64, n, n)
+#     diff = m' - m
+#     return (LinearAlgebra.I + diff) / (LinearAlgebra.I - diff)
+# end
