@@ -83,7 +83,10 @@ const S = [1 0; 0 im]
 
 The π/8 gate.
 """
-const T = [1 0; 0 (cospi(1/4) + im * sinpi(1/4))]
+const T = [1 0; 0 1/sqrt(2) * (1 + im)]
+# Following slightly less accurate.
+# Or better said; above T^2 - S == 0. But not for following
+# const T = [1 0; 0 (cospi(1/4) + im * sinpi(1/4))]
 
 # In recent versions of Julia, computing this at compile time takes several
 # seconds. So we insert the result.
