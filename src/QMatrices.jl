@@ -41,6 +41,6 @@ include("parametric.jl")
 include("constructed.jl")
 include("random.jl")
 
-# include("precompile.jl")
+include("precompile.jl")
 
 end # module QMatrices

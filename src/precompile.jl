@@ -4,7 +4,7 @@
     nothing
     using QMatrices
     @compile_workload begin
-        # all calls in this block will be precompiled, regardless of whether
+        # All calls in this block will be precompiled, regardless of whether
         # they belong to your package or not (on Julia 1.8 and higher)
         # These don't take very long to compile anyway.
         # Especially for larger values of N, the run time is much larger than compile time.
@@ -13,5 +13,6 @@
         random_unitary(4)
         random_special_unitary(4)
         random_unitary_hermitian(4)
+        random_orthogonal(8)
     end
 end
