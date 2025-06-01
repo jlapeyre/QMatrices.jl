@@ -88,18 +88,12 @@ const T = [1 0; 0 1/sqrt(2) * (1 + im)]
 # Or better said; above T^2 - S == 0. But not for following
 # const T = [1 0; 0 (cospi(1/4) + im * sinpi(1/4))]
 
-# In recent versions of Julia, computing this at compile time takes several
-# seconds. So we insert the result.
 """
-    sqrt_NOT
+    SX
 
-The square root of the `NOT` (or `X`) gate.
+The square root of the `X` (or `NOT`) gate.
 """
-const sqrt_NOT = ComplexF64[1.0 + 1.0im 1.0 - 1.0im; 1.0 - 1.0im 1.0 + 1.0im]
-# = sqrt(complex(X))
-
-const SX = 1//2 * [1+im 1-im; 1-im 1+im]
-
+const SX = (1/2 * [1+im 1-im; 1-im 1+im])::Matrix{ComplexF64}
 
 """
     SWAP
@@ -140,3 +134,16 @@ const magic_basis = (1 / sqrt(2)) *
      0  im   1    0
      0  im  -1    0
      1  0    0  -im]
+
+
+let oneqs = (:I2, :X, :Y, :Z, :H)
+    for a in oneqs, b in oneqs
+        as = a === :I2 ? :I : a
+        bs = b === :I2 ? :I : b
+        name = Symbol(as, bs)
+        dstr = "The gate $as ⊗ $bs"
+        @eval const $name = kron($a, $b)
+        @eval export $name
+        @eval @doc $dstr $name
+    end
+end
