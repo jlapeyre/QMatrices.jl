@@ -2,6 +2,12 @@
 #### Parametric gates
 ####
 
+# TODO!!
+# All the methods that construct a matrix with elements in place are insanely slow.
+# Instead allocate u matrix with undef elements and set them one by one.
+# This is also quite slow (not as slow) unless you explicitly set them one at a time with a literal
+# index. This is very unfortunate, but I don't know a way around it at the moment.
+
 """
     Rphi(ϕ)
 
@@ -141,6 +147,27 @@ function Ualtpi(θ, ϕ, λ)
     return [f00 f01; f10 f11]
 end
 
+function _R(θ, ϕ, sincosf)
+    (s, c) = sincosf(θ/2)
+    (sp, cp) = sincosf(ϕ)
+
+    m = Matrix{Complex{typeof(θ)}}(undef, 2, 2)
+    @inbounds m[1] = c
+    @inbounds m[2] = (-im*cp + sp) * s
+    @inbounds m[3] = (-im*cp - sp) * s
+    @inbounds m[4] = c
+    return m
+
+    # Slower :(
+    # for (i, x) in enumerate([c, (-im*cp + sp) * s, (-im*cp - sp) * s, c])
+    #     @inbounds m[i] = x
+    # end
+    # m
+    # More slower. Following is several times slower method in use above
+    # return [c  (-im*cp - sp) * s;
+    #         (-im*cp + sp) * s c]
+end
+
 @doc raw"""
     R(θ, ϕ)
 
@@ -150,11 +177,9 @@ R(\theta, \phi) = e^{-i \frac{\theta}{2} (\cos{\phi} x + \sin{\phi} y)}
 ```
 """
 function R(θ, ϕ)
-    c = cos(θ/2)
-    s = sin(θ/2)
-    return [c -im*exp(-im*ϕ)*s;
-            -im*exp(im*ϕ)*s c]
+    _R(θ, ϕ, sincos)
 end
+
 
 @doc raw"""
     Rpi(θ, ϕ)
@@ -166,10 +191,7 @@ Rpi(\theta, \phi) = e^{-i \frac{\pi\theta}{2} (\cos{\pi\phi} x + \sin{\pi\phi} y
 ```
 """
 function Rpi(θ, ϕ)
-    c = cospi(θ/2)
-    s = sinpi(θ/2)
-    return [c -im*cispi(-ϕ)*s;
-            -im*cispi(ϕ)*s c]
+    _R(θ, ϕ, sincospi)
 end
 
 """
@@ -219,14 +241,20 @@ function RXXYYpi(θ)
     _RXXYY(θ, cospi, sinpi)
 end
 
-function _RXXYY(θ, cfunc, sfunc)
-    II = I2 ⊗ I2 / 2
-    XX = X ⊗ X / 2
-    YY = Y ⊗ Y / 2
-    ZZ = Z ⊗ Z / 2
-    return II + ZZ + cfunc(θ) * (II - ZZ) -im * sfunc(θ) * (XX + YY)
-end
 
+function _RXXYY end
+
+let
+    IIh = II / 2
+    ZZh = ZZ / 2
+    IIZZp = IIh + ZZh
+    IIZZm = IIh - ZZh
+    XXYY = (XX + YY)/2
+    global _RXXYY
+    function _RXXYY(θ, cfunc, sfunc)
+        return IIZZp + cfunc(θ) * IIZZm -im * sfunc(θ) * XXYY
+    end
+end
 
 """
     RXZ(θ)
@@ -254,6 +282,34 @@ function _RXZ(θ, cosf, sinf)
      0  c  0  s
     -s  0  c  0
      0  s  0  c]
+end
+
+"""
+    RZZ(θ)
+
+`exp(-im * θ/2 Z ⊗ Z)`
+"""
+function RZZ(θ)
+    _RZZ(θ, sincos)
+end
+
+"""
+    RZZpi(θ)
+
+`exp(-im * pi * θ/2 Z ⊗ Z)`
+"""
+function RZZpi(θ)
+    _RZZ(θ, sincospi)
+end
+
+# This is much faster than writing out the elements explicitly
+# I don't understand why.
+# There are far fewer alloctations this way, compared to writing
+# them explicitly. That should actually only allocate once.
+function _RZZ(θ, sincosf)
+    t =  θ / 2
+    (s, c) = sincosf(t)
+    c * II - im * s * ZZ
 end
 
 # In Qiskit, there is only RXZ, but they write
