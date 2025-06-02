@@ -302,14 +302,24 @@ function RZZpi(θ)
     _RZZ(θ, sincospi)
 end
 
-# This is much faster than writing out the elements explicitly
-# I don't understand why.
-# There are far fewer alloctations this way, compared to writing
-# them explicitly. That should actually only allocate once.
 function _RZZ(θ, sincosf)
     t =  θ / 2
     (s, c) = sincosf(t)
-    c * II - im * s * ZZ
+    a = c - im  * s
+    b = c + im * s
+    m = zeros(Complex{typeof(t)}, 4, 4)
+    # m = Matrix{Complex{typeof(t)}}(undef, 4, 4)
+    # for i in 1:16
+    #     @inbounds m[i] = 0.0
+    # end
+    @inbounds m[1,1] = a
+    @inbounds m[2,2] = b
+    @inbounds m[3,3] = b
+    @inbounds m[4,4] = a
+    return m
+    # Following is slower, but still faster than writing elements
+    # explicitly
+    # return c * II - im * s * ZZ
 end
 
 # In Qiskit, there is only RXZ, but they write
