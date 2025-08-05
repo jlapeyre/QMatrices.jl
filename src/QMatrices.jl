@@ -26,6 +26,8 @@ RZZ, RZZpi,
 RXXYY, RXXYYpi,
 U, Ualt, U2,
 R, Rpi,
+# Spin 1 matrices
+S1x, S1y, S1z,
 magic_basis,
 random_unitary,
 random_unitary!,
@@ -43,6 +45,7 @@ export I2, H, CH, CCH, S, T,
     X, CX, CCX, Y, CY, CCY, Z, CZ, CCZ,
     SWAP, CSWAP, iSWAP, ECR,
     Rphi, Rphipi,
+    S1x, S1y, S1z,
     SX,
     RX, RXpi,
     RY, RYpi,
@@ -63,11 +66,15 @@ export I2, H, CH, CCH, S, T,
     random_orthogonal
 
 include("basic_dynamic.jl")
+include("spin.jl")
 include("linalg.jl")
 include("construction.jl")
 include("parametric.jl")
 include("constructed.jl")
 include("random.jl")
+
+export compose
+include("name_map.jl")
 
 # For compiling workflows for statically-compiled-like latency
 # using PrecompileTools: @setup_workload, @compile_workload

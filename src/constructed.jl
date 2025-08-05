@@ -51,7 +51,6 @@ function bell(a, b)
     return _bells[2*a + b + 1]
 end
 
-
 """
     bell_diag(c0, c1, c2, c3)
 
