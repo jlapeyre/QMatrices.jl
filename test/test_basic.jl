@@ -1,6 +1,16 @@
 using QMatrices
 using LinearAlgebra: LinearAlgebra
 
+@testset "Random unitary" begin
+    for n in 2:10
+        m = random_unitary(n)
+        @test isapprox(m *  m', one(m))
+    end
+
+    m = random_unitary(BigFloat, 2)
+    @test sum(abs, m * m' - one(m)) < 1e-50
+end
+
 @testset "Basic algebraic props" begin
     for m in (X, Y, Z, H)
         @test isapprox(m^2, LinearAlgebra.I) # TODO: (slow) norm is unnecessary

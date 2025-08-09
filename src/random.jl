@@ -3,15 +3,26 @@ using LinearAlgebra: Diagonal
 import Random
 
 """
-    random_unitary(n::Integer)
+    random_unitary(::Type{T}=Float64, n::Integer) where T <: AbstractFloat
 
-Return a Haar-random nxn unitary matrix.
+Return a Haar-random `nxn` unitary matrix.
+
+Types other than `Float64` are supported only for `n` equal to two.
 
 # Reference
 F Mezzadri, arXiv:math-ph/0609050
 """
+function random_unitary(::Type{T}, n::Integer) where T <: AbstractFloat
+    n == 2 && return _random_unitary_2x2(T)
+    throw(ArgumentError(lazy"Type '$T' supported only for 2x2 matrices"))
+end
+
+function random_unitary(::Type{Float64}, n::Integer)
+    return n == 2 ? _random_unitary_2x2(Float64) : _random_unitary(n)
+end
+
 function random_unitary(n::Integer)
-    return n == 2 ? _random_unitary_2x2() : _random_unitary(n)
+    return random_unitary(Float64, n)
 end
 
 # FIXME: 2x2 allocates a new matrix
@@ -31,11 +42,11 @@ Return a Haar-random 2x2 unitary matrix.
 
 This function is 10 times faster than `_random_unitary(2)`.
 """
-function _random_unitary_2x2()
-    sp_squared = rand() # sin^2(phi)
+function _random_unitary_2x2(::Type{T}) where T
+    sp_squared = rand(T) # sin^2(phi)
     sp = sqrt(sp_squared) # sin(phi)
     cp = sqrt(1 - sp_squared) # cos(phi)
-    (alpha, beta, gamma) = 2pi .* (rand(), rand(), rand())
+    (alpha, beta, gamma) = T(2) * pi .* (rand(T), rand(T), rand(T))
     return [cis(beta + alpha)    * cp  cis(gamma + alpha) * sp
             -cis(-gamma + alpha) * sp  cis(-beta + alpha) * cp]
 end
