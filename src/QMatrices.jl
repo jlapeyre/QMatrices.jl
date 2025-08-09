@@ -77,7 +77,7 @@ export compose
 include("name_map.jl")
 
 # For compiling workflows for statically-compiled-like latency
-# using PrecompileTools: @setup_workload, @compile_workload
-# include("precompile.jl")
+using PrecompileTools: @setup_workload, @compile_workload
+include("precompile.jl")
 
 end # module QMatrices
